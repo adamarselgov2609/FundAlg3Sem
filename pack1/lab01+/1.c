@@ -134,7 +134,7 @@ int main(int argc, char *argv[]) {
         return status;
     }
 
-    if (strcmp(flag, "-h") == 0) {
+    if (!strcmp(flag, "-h")) {
         int multiples[100];
         int count;
         status = find_multiples(x, multiples, &count);
@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
             printf("Нет чисел, кратных %d в пределах 100\n", x);
         }
     }
-    else if (strcmp(flag, "-p") == 0) {
+    else if (!strcmp(flag, "-p")) {
         bool is_prime_result;
         status = is_prime(x, &is_prime_result);
         if (status == SUCCESS) {
@@ -165,7 +165,7 @@ int main(int argc, char *argv[]) {
             printf("%d не является ни простым, ни составным числом\n", x);
         }
     }
-    else if (strcmp(flag, "-s") == 0) {
+    else if (!strcmp(flag, "-s")) {
         char hex_str[20];
         status = split_to_hex_digits(x, hex_str);
         if (status == SUCCESS) {
@@ -176,7 +176,7 @@ int main(int argc, char *argv[]) {
             printf("\n");
         }
     }
-    else if (strcmp(flag, "-e") == 0) {
+    else if (!strcmp(flag, "-e")) {
         long powers[10][10];
         status = generate_powers_table(x, powers);
         if (status == SUCCESS) {
@@ -192,14 +192,14 @@ int main(int argc, char *argv[]) {
             printf("Ошибка: x должен быть не больше 10.\n");
         }
     }
-    else if (strcmp(flag, "-a") == 0) {
+    else if (!strcmp(flag, "-a")) {
         int sum;
         status = sum_to_x(x, &sum);
         if (status == SUCCESS) {
             printf("Сумма чисел от 1 до %d: %d\n", x, sum);
         }
     }
-    else if (strcmp(flag, "-f") == 0) {
+    else if (!strcmp(flag, "-f")) {
         long long fact;
         status = factorial(x, &fact);
         if (status == SUCCESS) {

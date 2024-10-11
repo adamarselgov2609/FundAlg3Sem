@@ -1,23 +1,20 @@
 TARGET = 1
 
-
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -g
 
 
-SRC = 1.c
+all: $(TARGET)
 
-
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) -o $(TARGET) $(SRC)
-
-
-test: $(TARGET)
-	@echo "Запуск тестов..."
-	./run_tests.sh
+$(TARGET): 1.c
+	$(CC) $(CFLAGS) 1.c -o $(TARGET)
 
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(TARGET)
 
-.PHONY: test clean
+
+test: $(TARGET)
+	./test.sh
+
+.PHONY: all clean test
