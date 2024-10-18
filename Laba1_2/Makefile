@@ -1,8 +1,8 @@
 CС=gcc
 CFLAGS= -Wall -Werror -Wextra
 
-SOURCES=task_1_3.c # Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
-TEST_TEMPLATES_DIR=/home/admin1/FundAlg3/Laba_1/Laba1_3# Это директория с шаблонами тестов (если вы их разместите в той же директории что и лабы пишите ./)
+SOURCES=task_1_2.c # Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
+TEST_TEMPLATES_DIR=../test_templates# Это директория с шаблонами тестов (если вы их разместите в той же директории что и лабы пишите ./)
 EXECUTABLES=$(SOURCES:.c=.a)
 BASH=bash
 SUCCESS_CMD=$(BASH) $(TEST_TEMPLATES_DIR)/success_cmd
@@ -57,52 +57,24 @@ clean: # Чтобы удалить все исполняемые файлы на
 #
 
 test_command_args_1:
-	@$(FAILED_CMD) "task_1_3.a" 3 "Incorrect args count"
+	@$(FAILED_CMD) "task_1_2.a" -1 "Not enough arguments"
 	@echo "TEST 1 PASSED. we enter without arguments"
 
 test_command_args_2:
-	@$(FAILED_CMD) "task_1_3.a -a" -1 "NOT EXISTING FLAG - -a"
-	@echo "TEST 2 PASSED. we enter a flag that does not exist"
+	@$(FAILED_CMD) "task_1_2.a -1" -1 "Epsilon should be positive"
+	@echo "TEST 2 PASSED. The eps number must be positive"
 
 test_command_args_3:
-	@$(FAILED_CMD) "task_1_3.a -q 0.0001 2 3" 2 "The wrong amount of arguments! Must be 4 for -q key!"
-	@echo "TEST 3 PASSED. entering the wrong number of arguments"
+	@$(FAILED_CMD) "task_1_2.a 123ffgfs" 5 "Invalid input"
+	@echo "TEST 3 PASSED. we enter a string that is not a number"
 
 test_command_args_4:
-	@$(FAILED_CMD) "task_1_3.a -q a a a a" 11 "The argument must be a number!"
-	@echo "TEST 4 PASSED. we enter a string that is not a number"
-
-test_command_args_5:
-	@$(FAILED_CMD) "task_1_3.a -m 1" 2 "The wrong amount of arguments! Must be 2 for -m key!"
-	@echo "TEST 6 PASSED. entering the wrong number of arguments"
-
-test_command_args_6:
-	@$(FAILED_CMD) "task_1_3.a -m a a" 11 "The argument must be a number!"
-	@echo "TEST 7 PASSED. we enter a string that is not a number"
-
-test_command_success_1:
-	@$(SUCCESS_CMD) "task_1_3.a -m 4 2" "The first number is a multiple of the second."
-	@echo "TEST 8 PASSED. we enter the number at which it works"
-
-test_command_args_7:
-	@$(FAILED_CMD) "task_1_3.a -m 0 0" 13 "Must be a non_zero integer"
-	@echo "TEST 9 PASSED. we enter a string that is not a number"
-
-test_command_args_8:
-	@$(FAILED_CMD) "task_1_3.a -t 0.001 1 2" 2 "The wrong amount of arguments! Must be 4 for -t key!"
-	@echo "TEST 10 PASSED. entering the wrong number of arguments"
-
-test_command_args_9:
-	@$(FAILED_CMD) "task_1_3.a -t 0.001 a a a" 11 "The argument must be a number!"
-	@echo "TEST 11 PASSED. we enter a string that is not a number"
-
-test_command_success_2:
-	@$(SUCCESS_CMD) "task_1_3.a -t 0.001 1 2 3" "It can't be a rectangle."
-	@echo "TEST 12 PASSED. we enter the number at which it works"
+	@$(FAILED_CMD) "task_1_2.a 123 123" -1 "Not enough arguments"
+	@echo "TEST 4 PASSED. we enter a large number of arguments"
 
 test_command_success_ofile_1:
-	@$(SUCCESS_OFILE) "task_1_3.a -q 0.0001 2 3 4" "output_for_task_1_3.txt"
-	@echo "TEST 5 PASSED. we enter the number at which it works"
+	@$(SUCCESS_OFILE) "task_1_2.a 0.0001" "output_for_task_1_2.txt"
+	@echo "TEST 5 PASSED. we enter the eps at which it works"
 
 #test_command_args_ofile_1:
 #	@$(FAILED_OFILE) "task_1.a" -1 "./failed_output_file_for_task_1.txt"
@@ -113,7 +85,7 @@ test_command_success_ofile_1:
 #	@echo "TEST 3 PASSED"
 #
 #test_command_success_ofile_1:
-#	@$(SUCCESS_OFILE) "1_2.a 0.0001" "output_for_task_1.txt"
+#	@$(SUCCESS_OFILE) "1_2.a 0.000001" "output_for_task_1.txt"
 #	@echo "TEST 4 PASSED"
 
 #test_command_args_2:
@@ -125,6 +97,6 @@ test_command_success_ofile_1:
 #	@echo "TEST 6 PASSED"
 
 
-test: test_command_args_1 test_command_args_2 test_command_args_3 test_command_args_4  test_command_args_5 test_command_args_6 test_command_success_1 test_command_args_7 test_command_args_8 test_command_args_9 test_command_success_2 test_command_success_ofile_1# Здесь перечисляются все написанные вами тесты. Запуск тестов производится по команде make test
+test: test_command_args_1 test_command_args_2 test_command_args_3 test_command_args_4 test_command_success_ofile_1 # Здесь перечисляются все написанные вами тесты. Запуск тестов производится по команде make test
 
 

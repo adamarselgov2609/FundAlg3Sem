@@ -1,8 +1,8 @@
 CС=gcc
 CFLAGS= -Wall -Werror -Wextra
 
-SOURCES=task_1_2.c # Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
-TEST_TEMPLATES_DIR=/home/admin1/FundAlg3/Laba_1/Laba1_2# Это директория с шаблонами тестов (если вы их разместите в той же директории что и лабы пишите ./)
+SOURCES=task9_1.c# Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
+TEST_TEMPLATES_DIR=../test_templates# Это директория с шаблонами тестов (если вы их разместите в той же директории что и лабы пишите ./)
 EXECUTABLES=$(SOURCES:.c=.a)
 BASH=bash
 SUCCESS_CMD=$(BASH) $(TEST_TEMPLATES_DIR)/success_cmd
@@ -56,25 +56,19 @@ clean: # Чтобы удалить все исполняемые файлы на
 # Символ @ необходимо писать для подавления лишнего вывода в консоль при выполнении make файла.
 #
 
-test_command_args_1:
-	@$(FAILED_CMD) "task_1_2.a" -1 "Not enough arguments"
-	@echo "TEST 1 PASSED. we enter without arguments"
+test_command_args_9_1:
+	@$(FAILED_CMD) "task9_1.a" 1 "Wrong amount of arguments!"
+	@echo "TASK 9: TEST WITH NO ARGUMENTS PASSED"
 
-test_command_args_2:
-	@$(FAILED_CMD) "task_1_2.a -1" -1 "Epsilon should be positive"
-	@echo "TEST 2 PASSED. The eps number must be positive"
 
-test_command_args_3:
-	@$(FAILED_CMD) "task_1_2.a 123ffgfs" 5 "Invalid input"
-	@echo "TEST 3 PASSED. we enter a string that is not a number"
+test_failed_task_9_1:
+	@$(FAILED_CMD) "task9_1.a -10 100 qwerty" 2 "Invalid input"
+	@echo "TASK 9: TEST WITH WRONG AMOUNT OF ARGUMENTS PASSED"
 
-test_command_args_4:
-	@$(FAILED_CMD) "task_1_2.a 123 123" -1 "Not enough arguments"
-	@echo "TEST 4 PASSED. we enter a large number of arguments"
+test_failed_1_task_9_1:
+	@$(FAILED_CMD) "task9_1.a -10 100 20" 2 "Invalid input: array size must be positive and min_value should be less than max_value."
+	@echo "TASK 9: TEST WITH WRONG ARGUMENTS PASSED"
 
-test_command_success_ofile_1:
-	@$(SUCCESS_OFILE) "task_1_2.a 0.0001" "output_for_task_1_2.txt"
-	@echo "TEST 5 PASSED. we enter the eps at which it works"
 
 #test_command_args_ofile_1:
 #	@$(FAILED_OFILE) "task_1.a" -1 "./failed_output_file_for_task_1.txt"
@@ -97,6 +91,5 @@ test_command_success_ofile_1:
 #	@echo "TEST 6 PASSED"
 
 
-test: test_command_args_1 test_command_args_2 test_command_args_3 test_command_args_4 test_command_success_ofile_1 # Здесь перечисляются все написанные вами тесты. Запуск тестов производится по команде make test
-
+test: test_command_args_9_1  test_failed_task_9_1 test_failed_1_task_9_1# Здесь перечисляются все написанные вами тесты. Запуск тестов производится по команде make test
 
