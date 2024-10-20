@@ -1,0 +1,11 @@
+Array after swapping min and max:
+7 9 3 9 3 10 9 7 5 2 
+
+First 10 elements of array A:
+68 953 -154 -41 538 -272 -279 -201 870 -798 
+
+First 10 elements of array B:
+839 -747 -257 -633 -418 -364 -762 521 -21 -495 
+
+First 10 elements of array C:
+136 1906 -308 -82 1076 -544 -558 -402 1740 -1596 

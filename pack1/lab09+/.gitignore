@@ -1,0 +1,12 @@
+*.out
+*.exe
+*.bin
+*.o
+*.so
+*.a
+
+*~
+*.tmp
+*.temp
+*.log
+.DS_Store
