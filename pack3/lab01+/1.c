@@ -24,8 +24,6 @@ StatusCode to_base_r(int number, int r, char** result) {
         return ERROR_INVALID_INPUT;
     }
 
-    
-   
     *result = (char*)malloc(33);
     if (*result == NULL) {
         return ERROR_MEMORY_ALLOCATION;
@@ -36,15 +34,23 @@ StatusCode to_base_r(int number, int r, char** result) {
     int mask = (1 << bit_size) - 1;
     while (number > 0 && index >= 0) {
         int bits = number & mask;
-        if (bits < 10) {
-            (*result)[index] = '0' + bits;
-        } else {
-            (*result)[index] = 'A' + (bits - 10);
+        char ch = '0';
+
+        for (int i = 0; i < bits; i++) {
+            ch++;
         }
+
+        if (bits >= 10) {
+            ch = 'A';  // Стартовая точка для символов 'A'-'F'
+            for (int i = 10; i < bits; i++) {
+                ch++;
+            }
+        }
+
+        (*result)[index] = ch;
         number >>= bit_size;
         index--;
     }
-
 
     while (index >= 0) {
         (*result)[index] = '0';
@@ -70,23 +76,21 @@ StatusCode print_results(int number, const char* bin, const char* quart, const c
            number, bin, number, quart, number, oct, number, hex, number, base32);
     return SUCCESS;
 }
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         printf("Ошибка: необходимо ввести одно число.\n");
         return ERROR_INVALID_INPUT;
     }
 
-    char* endptr;  // Указатель для проверки корректности ввода
-    long number = strtol(argv[1], &endptr, 10); // Преобразуем строку в число
+    char* endptr;
+    long number = strtol(argv[1], &endptr, 10);
 
-    // Проверка на ошибки: если endptr указывает на то же место, что и argv[1], или 
-    // если endptr не указывает на конец строки или если число меньше 0
     if (*endptr != '\0' || endptr == argv[1] || number < 0) {
         printf("Ошибка: недопустимое число. Введите положительное целое число.\n");
         return ERROR_INVALID_INPUT;
     }
 
-    // Приводим к int, если число в пределах диапазона
     if (number > INT_MAX) {
         printf("Ошибка: число слишком велико.\n");
         return ERROR_INVALID_INPUT;
