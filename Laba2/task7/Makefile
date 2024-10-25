@@ -2,7 +2,7 @@ CС=gcc
 CFLAGS= -Wall -Werror -Wextra
 CLIBS= -lm
 
-SOURCES=task2_2.c# Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
+SOURCES=task2_7.c# Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
 TEST_TEMPLATES_DIR=../test_templates# Это директория с шаблонами тестов (если вы их разместите в той же директории что и лабы пишите ./)
 EXECUTABLES=$(SOURCES:.c=.a)
 BASH=bash
@@ -90,22 +90,43 @@ clean: # Чтобы удалить все исполняемые файлы на
 
 
 test_failed_1:
-	@$(FAILED_IFILE_OFILE) "task2_2.a" -1 "e_input.txt" "e.txt"
-	@echo "TEST 1: PASS WITH WRONG AMOUNT OF ARG SUCCESS"
+	@$(FAILED_IFILE_OFILE) "task2_7.a" 1 "7i_2.txt" "7_2.txt"
+	@echo "TEST 1: PASS WITH WRONG LOWER BOUND SUCCESS"
 
 test_failed_2:
-	@$(FAILED_IFILE_OFILE) "task2_2.a" -1 "e2_input.txt" "e2.txt"
-	@echo "TEST 1: PASS WITH WRONG NUMBER SUCCESS"
+	@$(FAILED_IFILE_OFILE) "task2_7.a" 1 "7i_3.txt" "7_3.txt"
+	@echo "TEST 1: PASS WITH WRONG EPSILON SUCCESS"
 
+
+test_success: test_success_1 test_success_2 test_success_3 test_success_4 test_success_5 test_success_6
 
 test_success_1:
-	@$(SUCCESS_IFILE_OFILE) "task2_2.a 1 2" "sup_input.txt" "sup.txt"
-	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS SUCCESS"
+	@$(SUCCESS_IFILE_OFILE) "task2_7.a" "7i.txt" "7.txt"
+	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS FOR FUNC1 SUCCESS"
+
+test_success_2:
+	@$(SUCCESS_IFILE_OFILE) "task2_7.a" "7i_5.txt" "7_5.txt"
+	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS FOR FUNC2 SUCCESS"
+
+test_success_3:
+	@$(SUCCESS_IFILE_OFILE) "task2_7.a" "7i_6.txt" "7_6.txt"
+	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS FOR FUNC3 SUCCESS"
+
+test_success_4:
+	@$(SUCCESS_IFILE_OFILE) "task2_7.a" "7i_7.txt" "7_7.txt"
+	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS FOR FUNC4 SUCCESS"
+
+test_success_5:
+	@$(SUCCESS_IFILE_OFILE) "task2_7.a" "7i_8.txt" "7_8.txt"
+	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS FOR FUNC5 SUCCESS"
+
+test_success_6:
+	@$(SUCCESS_IFILE_OFILE) "task2_7.a" "7i_9.txt" "7_9.txt"
+	@echo "TEST 1: PASS WITH RIGHT ARGUMENTS FOR FUNC6 SUCCESS"
 
 
 
-
-test:  test_failed_1 test_failed_2 test_success_1
+test:  test_failed_1 test_failed_2 test_success
 
 
 

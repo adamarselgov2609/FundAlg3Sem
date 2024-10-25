@@ -106,8 +106,8 @@ int main() {
     double a, b, epsilon, root;
     Eode status;
 
-    printf("Choose an equation to solve:\n");
-    printf("Enter the equation number (1 to 6): ");
+    fprintf(stderr,"Choose an equation to solve: \n");
+    fprintf(stderr,"Enter the equation number (1 to 6): \n");
     if (scanf("%d", &choice) != 1) {
         fprintf(stderr, "Input error.\n");
         return EXIT_FAILURE;
@@ -134,26 +134,26 @@ int main() {
             selected_func = f6;
             break;
         default:
-            fprintf(stderr, "Wrong number of equation\n");
+            fprintf(stderr, "Wrong number of equation");
             return EXIT_FAILURE;
     }
 
-    printf("Enter the lower bound of the interval (a): ");
+    fprintf(stderr,"Enter the lower bound of the interval (a): \n");
     if (scanf("%lf", &a) != 1) {
-        fprintf(stderr, "Invalid input\n");
+        fprintf(stdout, "Invalid input\n");
         return EXIT_FAILURE;
     }
 
-    printf("Enter the upper bound of the interval (b): ");
+    fprintf(stderr,"Enter the upper bound of the interval (b): \n");
     if (scanf("%lf", &b) != 1) {
-        fprintf(stderr, "Invalid input\n");
+        fprintf(stdout, "Invalid input\n");
         return EXIT_FAILURE;
     }
 
 
-    printf("epsilon: ");
+    fprintf(stderr,"epsilon:\n");
     if (scanf("%lf", &epsilon) != 1 || epsilon <= 0) {
-        fprintf(stderr, "Invalid epsilon\n");
+        fprintf(stdout, "Invalid epsilon\n");
         return EXIT_FAILURE;
     }
 
@@ -164,6 +164,6 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    printf("Root: %.5lf\n", root);
+    fprintf(stdout,"Root: %.5lf\n", root);
     return 0;
 }

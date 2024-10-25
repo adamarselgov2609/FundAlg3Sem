@@ -3,8 +3,9 @@
 #include <stdarg.h>
 #include <math.h>
 
-enum {
+typedef enum {
     ERR_INPUT = -1,
+    OK = 2,
 }Eode;
 
 
@@ -44,21 +45,21 @@ double power(double base, int exp) {
 int main() {
     int count;
 
-    printf("Enter the number of numbers for the geometric mean: ");
+    fprintf(stderr,"Enter the number of numbers for the geometric mean: ");
     scanf("%d", &count);
 
     if (count <= 0) {
-        printf("The number of numbers must be positive.\n");
+        fprintf(stdout,"The number of numbers must be positive.\n");
         return ERR_INPUT;
     }
 
     double numbers[count];
 
-    printf("Enter %d real numbers:\n", count);
+    fprintf(stderr,"Enter %d real numbers:\n", count);
     for (int i = 0; i < count; i++) {
-        printf("Number %d: ", i + 1);
+        fprintf(stderr,"Number %d: ", i + 1);
         if (scanf("%lf", &numbers[i]) != 1){
-            printf("Argument must be a number\n");
+            fprintf(stdout,"Argument must be a number\n");
             return ERR_INPUT;
         }
     }
@@ -66,15 +67,20 @@ int main() {
 
     double base;
     int exp;
-    printf("Enter the base for exponentiation: ");
-    scanf("%lf", &base);
-    printf("Enter the exponent: ");
-    scanf("%d", &exp);
+    fprintf(stderr,"Enter the base for exponentiation: ");
+    if(scanf("%lf", &base) != 1 || exp < 0){
+        fprintf(stdout,"Argument must be a number\n");
+        return ERR_INPUT;
+    }
+    fprintf(stderr,"Enter the exponent: ");
+    if (scanf("%d", &exp) != 1 || exp < 0){
+        fprintf(stdout,"Argument must be a number\n");
+        return ERR_INPUT;
+    }
 
     double result = power(base, exp);
 
-    printf("Geometric mean: %.2f\n", mean);
-    printf("%.2f raised to the power of %d = %.2f\n", base, exp, result);
+    fprintf(stdout,"GEOM:%.2f  EXP:%.2f\n", mean, result);
     
     return 0;
 }
