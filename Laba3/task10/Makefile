@@ -1,7 +1,7 @@
 CС=gcc
 CFLAGS= -Wall -Werror -Wextra
 
-SOURCES=task_1_2.c # Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
+SOURCES=task10.c # Тут вы перечислятете файлы с вашими лабами по 1 файлу на задание
 TEST_TEMPLATES_DIR=../test_templates# Это директория с шаблонами тестов (если вы их разместите в той же директории что и лабы пишите ./)
 EXECUTABLES=$(SOURCES:.c=.a)
 BASH=bash
@@ -57,12 +57,12 @@ clean: # Чтобы удалить все исполняемые файлы на
 #
 
 test_command_args_1:
-	@$(FAILED_CMD) "task10.a" -1 "Not enough arguments"
+	@$(FAILED_CMD) "task10.a" 4 "Usage: ./a.out <input_file> <output_file>"
 	@echo "TEST 1 PASSED. we enter without arguments"
 
 test_command_args_2:
-	@$(SUCCESS_RFILE_OFILE) "task10.a 1.txt out.txt" -1 "Epsilon should be positive"
-	@echo "TEST 2 PASSED. The eps number must be positive"
+	@$(SUCCESS_RFILE_OFILE) "task10.a 1.txt out.txt" "o.txt" "out.txt" "expect.txt"
+	@echo "TEST 2 PASSED. The test with right arguments SUCCESS"
 
 # test_command_args_3:
 # 	@$(FAILED_CMD) "task_1_2.a 123ffgfs" 5 "Invalid input"
@@ -97,6 +97,6 @@ test_command_args_2:
 #	@echo "TEST 6 PASSED"
 
 
-test: test_command_args_1 test_command_args_2 test_command_args_3 test_command_args_4 test_command_success_ofile_1 # Здесь перечисляются все написанные вами тесты. Запуск тестов производится по команде make test
+test: test_command_args_1 test_command_args_2  # Здесь перечисляются все написанные вами тесты. Запуск тестов производится по команде make test
 
 

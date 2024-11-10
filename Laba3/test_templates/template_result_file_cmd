@@ -20,18 +20,14 @@ res=$($(pwd)/$1)
 
 ret_code=$?
 
-if [[ $(cat $3) = $res && $ret_code = $ret && $(cat $4) = $(cat $5) ]]
+if [[ $res = $3 && $ret_code = $ret && $(cat $4) = $(cat $5) ]]
 then
     exit 0
 else
     echo "Passed args:"
     echo $*
-    echo $res > ./tmp.txt
-    echo "Incorrect answer: expected return code=\""$(ret)"\", received=\""$(ret_code)"\""
-    echo "Output difference:"
-    echo $(diff $3 ./tmp.txt)
+    echo "Incorrect answer: expected output=\""$3"\", received=\""$res"\", expected return code=\""$ret"\", received=\""$ret_code"\""
     echo "Result file difference:"
     echo $(diff $4 $5)
-    rm ./tmp.txt 
     exit 2
 fi
