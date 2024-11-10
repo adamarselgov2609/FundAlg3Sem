@@ -1,6 +1,6 @@
 CС=gcc
 
-SOURCES=10.c
+SOURCES=7.c
 TEST_TEMPLATES_DIR=./test_templates
 EXECUTABLES=$(SOURCES:.c=.a)
 BASH=bash
