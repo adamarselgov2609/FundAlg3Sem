@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 typedef enum StatusCode {
     SUCCESS = 0,
@@ -14,33 +15,26 @@ StatusCode find_root(double a, double b, double epsilon, double (*func)(double),
     double fa = func(a);
     double fb = func(b);
 
-    if (fa == 0 || fb == 0) {
-        if (fa == 0) {
-           *root = a;
-           return SUCCESS;
-        }
-        else {
-            *root = b;
-            return SUCCESS;
-        }
+    if (!fa || !fb) {
+        *root = !fa ? a : b;
+        return SUCCESS;
     }
 
     if (fa * fb > 0) {
-        return ERROR_SAME_SIGN;  
+        return ERROR_SAME_SIGN;
     }
- 
 
     if (epsilon <= 0) {
-        return ERROR_INVALID_EPSILON; 
+        return ERROR_INVALID_EPSILON;
     }
 
     while ((b - a) > epsilon) {
         double midpoint = (a + b) / 2.0;
         double fmid = func(midpoint);
 
-        if (fabs(fmid) < epsilon ) {
+        if (fabs(fmid) < epsilon) {
             *root = midpoint;
-            return SUCCESS;  
+            return SUCCESS;
         }
 
         if (fa * fmid < 0) {
@@ -52,125 +46,104 @@ StatusCode find_root(double a, double b, double epsilon, double (*func)(double),
         }
     }
 
-    *root = (a + b) / 2.0;  
+    *root = (a + b) / 2.0;
     return SUCCESS;
 }
 
 double equation1(double x) {
-    return x * x - 4; 
+     return x * x - 4;
 }
 
 double equation2(double x) {
-    return x * x * x - x - 2; 
+     return x * x * x - x - 2;
 }
 
 double equation3(double x) {
-    return sin(x) - 0.5;  
+     return sin(x);
 }
 
 double equation4(double x) {
-    return exp(x) - 3;  
+    return exp(x) - 3;
 }
 
 double equation5(double x) {
-    return x * x * x - 1;  
+     return x * x * x - 1;
 }
 
 double equation6(double x) {
-    return x * x * x * x * x - 3 * x * x * x + 2;  
+     return x * x * x * x * x - 3 * x * x * x + 2;
 }
 
 StatusCode print_error(StatusCode status) {
     switch (status) {
         case ERROR_SAME_SIGN:
-            fprintf(stderr, "Функция имеет одинаковый знак на концах интервала.\n");
-            break;
-        case ERROR_INVALID_INTERVAL:
-            fprintf(stderr, "Неверный интервал.\n");
+            fprintf(stdout, "Функция имеет одинаковый знак на концах интервала.\n");
             break;
         case ERROR_INVALID_EPSILON:
-            fprintf(stderr, "Неверная точность.\n");
-            break;
-        case ERROR_MEMORY_ALLOCATION:
-            fprintf(stderr, "Ошибка выделения памяти.\n");
+            fprintf(stdout, "Неверная точность.\n");
             break;
         default:
-            fprintf(stderr, "Неизвестная ошибка.\n");
+            fprintf(stdout, "Неизвестная ошибка.\n");
             break;
     }
     return SUCCESS;
 }
 
-int main() {
-    int choice;
-    double a, b, epsilon, root;
+StatusCode solve_equations() {
+    double a, b, epsilon;
+    double root;
+    int equation_choice;
     StatusCode status;
 
+    double (*equations[])(double) = {equation1, equation2, equation3, equation4, equation5, equation6};
+    const char *equation_names[] = {
+        "x^2 - 4",
+        "x^3 - x - 2",
+        "sin(x) - 0.5",
+        "exp(x) - 3",
+        "x^3 - 1",
+        "x^5 - 3x^3 + 2"
+    };
 
     printf("Выберите уравнение для решения:\n");
-    printf("1: x^2 - 4\n");
-    printf("2: x^3 - x - 2\n");
-    printf("3: sin(x) - 0.5\n");
-    printf("4: exp(x) - 3\n");
-    printf("5: x^3 - 1\n");
-    printf("6: x^5 - 3x^3 + 2\n");
-    printf("Введите номер уравнения (от 1 до 6): ");
-    if (scanf("%d", &choice) != 1) {
-        fprintf(stderr, "Ошибка ввода. Нечисловое представление.\n");
-        return EXIT_FAILURE;
+    for (int i = 0; i < 6; ++i) {
+        printf("%d: %s\n", i + 1, equation_names[i]);
     }
 
-    double (*selected_func)(double);
-    switch (choice) {
-        case 1:
-            selected_func = equation1;
-            break;
-        case 2:
-            selected_func = equation2;
-            break;
-        case 3:
-            selected_func = equation3;
-            break;
-        case 4:
-            selected_func = equation4;
-            break;
-        case 5:
-            selected_func = equation5;
-            break;
-        case 6:
-            selected_func = equation6;
-            break;
-        default:
-            fprintf(stderr, "Неверный номер уравнения.\n");
-            return EXIT_FAILURE;
+    printf("Введите номер уравнения (1-6): ");
+    if (scanf("%d", &equation_choice) != 1 || equation_choice < 1 || equation_choice > 6) {
+        fprintf(stdout, "Неверный ввод. Попробуйте снова.\n");
+        return ERROR_INVALID_INTERVAL;
     }
 
-    printf("Введите нижнюю границу интервала (a): ");
-    if (scanf("%lf", &a) != 1) {
-        fprintf(stderr, "Ошибка ввода. Нечисловое представление.\n");
-        return EXIT_FAILURE;
+    printf("Введите нижнюю границу интервала a: ");
+    scanf("%lf", &a);
+
+    printf("Введите верхнюю границу интервала b: ");
+    scanf("%lf", &b);
+
+    if (a >= b) {
+        fprintf(stdout, "Неверный интервал. Левая граница должна быть меньше правой.\n");
+        return ERROR_INVALID_INTERVAL;
     }
 
-    printf("Введите верхнюю границу интервала (b): ");
-    if (scanf("%lf", &b) != 1) {
-        fprintf(stderr, "Ошибка ввода. Нечисловое представление.\n");
-        return EXIT_FAILURE;
-    }
+    printf("Введите точность epsilon: ");
+    scanf("%lf", &epsilon);
 
+    printf("Решаем уравнение %s на интервале [%.2f, %.2f] с точностью %.5f\n", equation_names[equation_choice - 1], a, b, epsilon);
+    
+    status = find_root(a, b, epsilon, equations[equation_choice - 1], &root);
 
-    printf("Введите желаемую точность (epsilon): ");
-    if (scanf("%lf", &epsilon) != 1 || epsilon <= 0) {
-        fprintf(stderr, "Неверная точность.\n");
-        return EXIT_FAILURE;
-    }
-
-
-    status = find_root(a, b, epsilon, selected_func, &root);
-    if (status != SUCCESS) {
+    if (status == ERROR_SAME_SIGN || status == ERROR_INVALID_EPSILON) {
         print_error(status);
-        return EXIT_FAILURE;
+    } else {
+        printf("Корень уравнения: %.5lf\n", root);
     }
 
-    printf("Корень уравнения: %.5lf\n", root);
+    return SUCCESS;
+}
+
+int main() {
+    solve_equations();
     return EXIT_SUCCESS;
 }

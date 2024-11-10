@@ -35,13 +35,13 @@ StatusCode to_base_r(int number, int r, char** result) {
     while (number > 0 && index >= 0) {
         int bits = number & mask;
         char ch = '0';
-
+             
         for (int i = 0; i < bits; i++) {
             ch++;
         }
-
+    
         if (bits >= 10) {
-            ch = 'A';  // Стартовая точка для символов 'A'-'F'
+            ch = 'A';
             for (int i = 10; i < bits; i++) {
                 ch++;
             }
